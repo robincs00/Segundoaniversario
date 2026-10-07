@@ -1,0 +1,217 @@
+/* ============================================
+   VARIABLES DE DISEÑO
+   Cambia estos colores y ya cambia toda la página
+   ============================================ */
+:root {
+  --color-fondo: #241016;      /* vino oscuro casi negro */
+  --color-fondo-2: #2f151d;    /* variación un poco más clara para secciones */
+  --color-texto: #f3e6df;      /* crema cálido para el texto */
+  --color-acento: #d9a066;     /* dorado suave */
+  --color-rosa: #e8a9b3;       /* rosa para corazones/detalles */
+  --fuente-titulo: "Cormorant Garamond", serif;
+  --fuente-texto: "Karla", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente-texto);
+  overflow-x: hidden;
+}
+
+/* ============================================
+   PORTADA (HERO)
+   ============================================ */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+#hearts-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 24px;
+}
+
+.hero-eyebrow {
+  margin: 0;
+  letter-spacing: 0.08em;
+  color: var(--color-rosa);
+  font-size: 0.95rem;
+}
+
+.hero-title {
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  margin: 8px 0 18px;
+  line-height: 1.05;
+}
+
+.hero-title .amp {
+  color: var(--color-acento);
+  font-style: italic;
+}
+
+.hero-days {
+  font-size: 1.15rem;
+  color: var(--color-acento);
+  margin-bottom: 40px;
+}
+
+.hero-scroll {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  animation: subir-bajar 2.2s ease-in-out infinite;
+}
+
+@keyframes subir-bajar {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(8px); opacity: 0.9; }
+}
+
+/* ============================================
+   LÍNEA DE MOMENTOS
+   ============================================ */
+#timeline {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px 120px;
+}
+
+.momento {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+  margin: 140px 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.momento.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Alterna foto izquierda/derecha en pantallas grandes */
+.momento.derecha { flex-direction: row-reverse; }
+
+.momento-foto {
+  flex: 1 1 340px;
+  position: relative;
+}
+
+.momento-foto img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+}
+
+.momento-texto {
+  flex: 1 1 320px;
+}
+
+.momento-fecha {
+  display: block;
+  color: var(--color-acento);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.momento-frase {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ============================================
+   CIERRE
+   ============================================ */
+.final {
+  text-align: center;
+  padding: 100px 24px 140px;
+  background: var(--color-fondo-2);
+}
+
+.final h2 {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 12px;
+}
+
+.final p {
+  margin: 0 0 30px;
+  opacity: 0.85;
+}
+
+#btn-corazones {
+  font-family: var(--fuente-texto);
+  background: transparent;
+  border: 1px solid var(--color-acento);
+  color: var(--color-acento);
+  padding: 12px 26px;
+  border-radius: 999px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#btn-corazones:hover {
+  background: var(--color-acento);
+  color: var(--color-fondo);
+}
+
+/* Corazones que salen volando (generados por JS) */
+.corazon-volador {
+  position: fixed;
+  bottom: -20px;
+  font-size: 1.4rem;
+  pointer-events: none;
+  z-index: 50;
+  animation: volar 2.8s ease-in forwards;
+}
+
+@keyframes volar {
+  0% { transform: translateY(0) scale(0.8); opacity: 1; }
+  100% { transform: translateY(-100vh) scale(1.1); opacity: 0; }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 720px) {
+  .momento, .momento.derecha {
+    flex-direction: column;
+    margin: 90px 0;
+  }
+}
+
+/* Respeta si el usuario prefiere menos animaciones */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .momento { transition: none; }
+  .hero-scroll { animation: none; }
+}
